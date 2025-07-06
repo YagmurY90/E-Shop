@@ -1,6 +1,7 @@
 import React from "react";
 import { PRODUCTS } from "../../products"; // ürünleri aldık
 import { Product } from "./product"; // bileşeni aldık
+import "./shop.css";
 
 export const Shop = () => {
   return (
