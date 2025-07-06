@@ -1,6 +1,14 @@
-import React from 'react'
+import React from "react";
+
+
 export const Shop = () => {
   return (
-    <div>shop</div>
-  )
-}
+    <div className="shop">
+      <div className="shopTitle">
+        <h1>Douby Shop</h1>
+      </div>
+      <div classname="products"></div>
+
+    </div>
+  );
+};
