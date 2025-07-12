@@ -1,5 +1,6 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import { PRODUCTS } from "../products";
+import toast from "react-hot-toast"; // sadece sepet için kullanıyoruz
 
 export const ShopContext = createContext(null);
 
@@ -13,6 +14,15 @@ const getDefaultCart = () => {
 
 export const ShopContextProvider = (props) => {
   const [cartItems, setCartItems] = useState(getDefaultCart());
+  const [favorites, setFavorites] = useState([]);
+
+  const toggleFavorite = (itemId) => {
+    setFavorites((prev) =>
+      prev.includes(itemId)
+        ? prev.filter((id) => id !== itemId)
+        : [...prev, itemId]
+    );
+  };
 
   const getTotalCartAmount = () => {
     let totalAmount = 0;
@@ -26,22 +36,25 @@ export const ShopContextProvider = (props) => {
   };
 
   const addToCart = (itemId) => {
-    console.log("🛒 addToCart çağrıldı! Ürün ID:", itemId);
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
+    toast.success("Ürün sepete eklendi! 🛒", {
+      style: {
+        borderRadius: '10px',
+        background: '#333',
+        color: '#fff',
+      },
+    });
   };
 
   const removeFromCart = (itemId) => {
-    console.log("❌ removeFromCart çağrıldı! Ürün ID:", itemId);
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
   };
 
   const updateCartItemCount = (newAmount, itemId) => {
-    console.log("🔁 updateCartItemCount çağrıldı! Ürün ID:", itemId, "Yeni adet:", newAmount);
     setCartItems((prev) => ({ ...prev, [itemId]: newAmount }));
   };
 
   const checkout = () => {
-    console.log("✅ Sepet sıfırlandı! Checkout yapıldı.");
     setCartItems(getDefaultCart());
   };
 
@@ -52,6 +65,8 @@ export const ShopContextProvider = (props) => {
     removeFromCart,
     getTotalCartAmount,
     checkout,
+    favorites,
+    toggleFavorite,
   };
 
   return (
