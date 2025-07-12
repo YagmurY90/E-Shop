@@ -1,6 +1,8 @@
+import { useTranslation } from "react-i18next";
 import { createContext, useState } from "react";
 import { PRODUCTS } from "../products";
-import toast from "react-hot-toast"; // sadece sepet için kullanıyoruz
+import toast from "react-hot-toast";
+
 
 export const ShopContext = createContext(null);
 
@@ -13,8 +15,14 @@ const getDefaultCart = () => {
 };
 
 export const ShopContextProvider = (props) => {
+  const { t } = useTranslation(); // ✅ Çeviri hook'u burada
   const [cartItems, setCartItems] = useState(getDefaultCart());
   const [favorites, setFavorites] = useState([]);
+  const [theme, setTheme] = useState("light");
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  };
 
   const toggleFavorite = (itemId) => {
     setFavorites((prev) =>
@@ -37,11 +45,11 @@ export const ShopContextProvider = (props) => {
 
   const addToCart = (itemId) => {
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
-    toast.success("Ürün sepete eklendi! 🛒", {
+    toast.success(t("added_to_cart"), {
       style: {
-        borderRadius: '10px',
-        background: '#333',
-        color: '#fff',
+        borderRadius: "10px",
+        background: "#333",
+        color: "#fff",
       },
     });
   };
@@ -67,6 +75,8 @@ export const ShopContextProvider = (props) => {
     checkout,
     favorites,
     toggleFavorite,
+    theme,
+    toggleTheme,
   };
 
   return (
@@ -75,3 +85,4 @@ export const ShopContextProvider = (props) => {
     </ShopContext.Provider>
   );
 };
+
