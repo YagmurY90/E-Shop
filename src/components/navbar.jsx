@@ -9,6 +9,7 @@ export const Navbar = () => {
   const { cartItems, favorites, theme, toggleTheme } = useContext(ShopContext);
   const { t, i18n } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
+  
 
   const totalCartCount = Object.values(cartItems).reduce((a, b) => a + b, 0);
 
@@ -50,6 +51,22 @@ export const Navbar = () => {
             onClick={() => changeLanguage("en")}
           />
         </div>
+        {localStorage.getItem("isAuth") === "true" ? (
+  <button
+    className="logout-btn"
+    onClick={() => {
+      localStorage.removeItem("isAuth");
+      window.location.href = "/";
+    }}
+  >
+    {t("navbar.logout")}
+  </button>
+) : (
+  <Link to="/login" onClick={() => setMenuOpen(false)}>
+    {t("navbar.login")}
+  </Link>
+)}
+
       </div>
 
       <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
