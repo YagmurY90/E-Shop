@@ -1,13 +1,46 @@
-/* Genel App container */
-.App {
-  min-height: 100vh;
-  background-color: #fdfdfb;
-  font-family: 'Inter', sans-serif;
-  display: flex;
-  flex-direction: column;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Link genel stilleri (navbar’daki linkler vs.) */
+html, body, #root {
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Tema değişkenleri */
+.App.light {
+  --bg: #fdfdfb;
+  --text: #222;
+  --card-bg: #fff;
+}
+
+.App.dark {
+  --bg: #181818;
+  --text: #eee;
+  --card-bg: #282828;
+}
+
+/* App container */
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-top: 70px; /* Navbar yüksekliği */
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+/* Link stilleri */
 a {
   text-decoration: none;
   color: inherit;
@@ -18,10 +51,10 @@ a:hover {
   color: #8b0303;
 }
 
-/* Responsive padding için (mobilde güzel görünüm) */
+/* Responsive */
 @media (max-width: 768px) {
   .App {
-    padding: 10px;
+    padding-top: 70px;
   }
 
   .shopTitle {
@@ -33,7 +66,7 @@ a:hover {
   }
 }
 
-/* Flying heart animasyonuna destek */
+/* Flying heart animasyonu */
 @keyframes flyHeart {
   0% {
     transform: translateY(0) scale(1);
@@ -51,4 +84,15 @@ a:hover {
   pointer-events: none;
   font-size: 1.4rem;
   z-index: 9999;
+}
+
+/* Scrollbar stilleri */
+::-webkit-scrollbar {
+  width: 8px;
+  background-color: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #999;
+  border-radius: 4px;
 }
