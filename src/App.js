@@ -1,30 +1,37 @@
-
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Navbar } from "./components/navbar";
 import { Shop } from "./pages/shop/shop";
 import { Cart } from "./pages/cart/cart";
-import { ShopContextProvider } from "./context/shop_context";
 import { Favorites } from "./pages/favorites/favorites";
-import { Toaster } from 'react-hot-toast';
+import { ShopContextProvider, ShopContext } from "./context/shop_context";
+import { Toaster } from "react-hot-toast";
+import { useContext } from "react";
 
+// ⚠️ Yeni wrapper komponent tanımlıyoruz çünkü context'i App bileşeni içinde kullanmak istiyoruz
+function ThemedApp() {
+  const { theme } = useContext(ShopContext);
 
+  return (
+    <div className={`App ${theme}`}>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Shop />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/favorites" element={<Favorites />} />
+        </Routes>
+        <Toaster position="top-right" reverseOrder={false} />
+      </Router>
+    </div>
+  );
+}
 
 function App() {
   return (
-    <div className="App">
-      <ShopContextProvider>
-        <Router>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Shop />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/favorites" element={<Favorites />} /> {/* 💥 Bu önemli */}
-          </Routes>
-        </Router>
-        <Toaster position="top-right" reverseOrder={false} />
-      </ShopContextProvider>
-    </div>
+    <ShopContextProvider>
+      <ThemedApp />
+    </ShopContextProvider>
   );
 }
 
