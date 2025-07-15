@@ -11,5 +11,18 @@
   "Continue Shopping": "Alışverişe Devam Et",
   "Checkout": "Satın Al",
   "no_favorites": "Henüz favori ürününüz yok 😢",
-  "subtotal": "Ara Toplam"
+  "subtotal": "Ara Toplam",
+
+  "login": {
+    "title": "Giriş Yap",
+    "emailPlaceholder": "E-posta",
+    "passwordPlaceholder": "Şifre",
+    "button": "Giriş",
+    "invalid": "Yanlış e-posta veya şifre!"
+  },
+
+  "navbar": {
+    "login": "Giriş Yap",
+    "logout": "Çıkış Yap"
+  }
 }

@@ -11,6 +11,18 @@
   "Continue Shopping": "Continue Shopping",
   "Checkout": "Checkout",
   "no_favorites": "You have no favorite products yet 😢",
-  "subtotal": "Subtotal"
+  "subtotal": "Subtotal",
 
+  "login": {
+    "title": "Login",
+    "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Password",
+    "button": "Login",
+    "invalid": "Invalid email or password!"
+  },
+
+  "navbar": {
+    "login": "Login",
+    "logout": "Logout"
+  }
 }
