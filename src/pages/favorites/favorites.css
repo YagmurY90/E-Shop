@@ -1,0 +1,16 @@
+.favorites {
+  padding: 20px;
+}
+
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.shopTitle {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
