@@ -2,28 +2,71 @@
 .cart {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  align-items: flex-start;  /* ✅ Bu sola hizalar */
+  padding: 2rem 3rem;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-.cartItem {
-  width: 700px;
-  height: 250px;
+@media screen and (max-width: 768px) {
+  .cart {
+    padding: 1rem;
+  }
+}
+ /* Sayfa düzeyi kapsayıcı */
+.cart-page {
+  padding: 2rem 3rem;
+  max-width: 1000px;
+ 
+}
+
+/* Ürün listesi container */
+.cart-items {
   display: flex;
-
-  align-items: center;
-  box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
-  border-radius: 25px;
-  margin: 30px;
+  flex-direction: column;
+  width: 100%;
+  align-items: flex-start; /* 🔥 SOLA YASLAR */
 }
+
+/* Her ürün kartı */
+.cartItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 400px;
+  padding: 1rem;
+  margin: 1rem 0;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: var(--bg);
+}
+
 
 .cartItem img {
-  width: 200px;
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-right: 1rem;
 }
 
 .cartItem .description {
-  width: 100%;
-  font-size: 30px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cartItem .countHandler {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.cartItem .actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 1rem;
 }
 
 .countHandler input {
@@ -42,3 +85,88 @@
   margin: 10px;
   cursor: pointer;
 }
+.cart_item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.delete-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.delete-btn:hover {
+  transform: scale(1.2);
+  color: red;
+}
+
+.countHandler {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+/* Genel checkbox görünümü */
+.cartItem input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  appearance: none;          /* ❗ Kendi stilimizi çizmemiz için */
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+/* Temaya göre varsayılan border rengi */
+body.dark .cartItem input[type="checkbox"] {
+  background-color: #222;
+  border-color: #555;
+}
+
+.cartItem input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  appearance: none;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+.cartItem input[type="checkbox"]:checked {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.cartItem input[type="checkbox"]::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 6px;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  opacity: 0;
+  transition: 0.2s ease;
+}
+
+.cartItem input[type="checkbox"]:checked::after {
+  opacity: 1;
+}
+body.dark .cartItem input[type="checkbox"] {
+  background-color: #a39898;
+  border-color: #462f2f;
+}
+
+
