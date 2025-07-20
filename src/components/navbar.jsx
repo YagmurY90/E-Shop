@@ -1,14 +1,20 @@
-import React, { useContext, useState } from "react";
+import React, { useContext,useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ShoppingCart, Moon, Sun } from "phosphor-react";
 import { ShopContext } from "../context/shop_context";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 import "./navbar.css";
 
 export const Navbar = () => {
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [username, setUsername] = useState(localStorage.getItem("username") || "");
   const { cartItems, favorites, theme, toggleTheme } = useContext(ShopContext);
   const { t, i18n } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth") === "true");
+  const location = useLocation();
+
   
 
   const totalCartCount = Object.values(cartItems).reduce((a, b) => a + b, 0);
@@ -16,6 +22,18 @@ export const Navbar = () => {
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
   };
+
+  useEffect(() => {
+    const syncAuth = () => {
+      setIsAuth(localStorage.getItem("isAuth") === "true");
+      setUsername(localStorage.getItem("username") || "");
+    };
+
+    window.addEventListener("storage", syncAuth);
+    return () => {
+      window.removeEventListener("storage", syncAuth);
+    };
+  }, []);
 
   return (
     <div className="navbar">
@@ -51,21 +69,48 @@ export const Navbar = () => {
             onClick={() => changeLanguage("en")}
           />
         </div>
-        {localStorage.getItem("isAuth") === "true" ? (
-  <button
-    className="logout-btn"
-    onClick={() => {
-      localStorage.removeItem("isAuth");
-      window.location.href = "/";
-    }}
+       {!location.pathname.includes("/login") && isAuth && (
+  <div className="user-dropdown">
+    <button
+      className={`auth-btn ${theme}`}
+      onClick={() => setShowDropdown(!showDropdown)}
+    >
+      {username} ⏷
+    </button>
+
+    {showDropdown && (
+      <div className={`dropdown-menu ${theme}`}>
+        <button
+          className="dropdown-item"
+          onClick={() => {
+            localStorage.removeItem("isAuth");
+            localStorage.removeItem("username");
+            setIsAuth(false);
+            setUsername("");
+            setShowDropdown(false);
+            window.location.href = "/";
+          }}
+        >
+          {t("navbar.logout")}
+        </button>
+      </div>
+    )}
+  </div>
+)}
+
+{!location.pathname.includes("/login") && !isAuth && (
+  <Link
+    to="/login"
+    className={`auth-btn ${theme}`}
+    onClick={() => setMenuOpen(false)}
   >
-    {t("navbar.logout")}
-  </button>
-) : (
-  <Link to="/login" onClick={() => setMenuOpen(false)}>
     {t("navbar.login")}
   </Link>
 )}
+
+
+
+
 
       </div>
 
