@@ -14,15 +14,20 @@
   "subtotal": "Ara Toplam",
 
   "login": {
-    "title": "Giriş Yap",
-    "emailPlaceholder": "E-posta",
-    "passwordPlaceholder": "Şifre",
-    "button": "Giriş",
-    "invalid": "Yanlış e-posta veya şifre!"
-  },
+  "title": "Giriş Yap",
+  "emailPlaceholder": "E-posta",
+  "passwordPlaceholder": "Şifre",
+  "button": "Giriş",
+  "invalid": "Yanlış e-posta veya şifre!",
+  "success": "Giriş başarılı! 🎉"
+},
 
   "navbar": {
     "login": "Giriş Yap",
     "logout": "Çıkış Yap"
-  }
+  },
+  "success": "Giriş başarılı! 🎉",
+  "selected_total": "Seçilenlerin Toplamı"
+
+
 }

@@ -14,15 +14,21 @@
   "subtotal": "Subtotal",
 
   "login": {
-    "title": "Login",
-    "emailPlaceholder": "Email",
-    "passwordPlaceholder": "Password",
-    "button": "Login",
-    "invalid": "Invalid email or password!"
-  },
+  "title": "Login",
+  "emailPlaceholder": "Email",
+  "passwordPlaceholder": "Password",
+  "button": "Login",
+  "invalid": "Invalid email or password!",
+  "success": "Login successful! 🎉"
+}
+,
 
   "navbar": {
     "login": "Login",
     "logout": "Logout"
-  }
+  },
+  "success": "Login successful! 🎉",
+  "selected_total": "Selected Total"
+
+
 }
