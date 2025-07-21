@@ -28,7 +28,10 @@
     "logout": "Logout"
   },
   "success": "Login successful! 🎉",
-  "selected_total": "Selected Total"
+  "selected_total": "Selected Total",
+  "no_product_detail": "No detailed information available for this product.",
+  "price": "Price"
+
 
 
 }

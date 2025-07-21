@@ -27,7 +27,10 @@
     "logout": "Çıkış Yap"
   },
   "success": "Giriş başarılı! 🎉",
-  "selected_total": "Seçilenlerin Toplamı"
+  "selected_total": "Seçilenlerin Toplamı",
+  "no_product_detail": "Bu ürün hakkında detaylı bilgi yok.",
+  "price": "Fiyat"
+
 
 
 }
