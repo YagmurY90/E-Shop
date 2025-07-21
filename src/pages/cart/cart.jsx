@@ -19,11 +19,9 @@ export const Cart = () => {
 
   const navigate = useNavigate();
 
-  // 💰 Total hesapla
   const rawTotal = getTotalCartAmount();
   const selectedTotal = getSelectedTotalAmount();
 
-  // 💸 Formatlı fiyat
   const formatter = new Intl.NumberFormat(
     i18n.language === "tr" ? "tr-TR" : "en-US",
     {
@@ -60,19 +58,28 @@ export const Cart = () => {
     navigate("/checkout");
   };
 
+  // 🔥 Sadece sepete eklenmiş (undefined olmayan) ürünleri göster
+  const cartEntries = Object.entries(cartItems).filter(([_, count]) =>
+    count !== undefined
+  );
+
   return (
     <div className="cart-page">
       <h1>{t("Your Cart Items")}</h1>
 
       <div className="cart-items">
-        {PRODUCTS.map((product) =>
-          cartItems[product.id] > 0 ? (
-            <CartItem key={product.id} data={product} />
-          ) : null
+        {cartEntries.length === 0 ? (
+          <p>{t("Your Shopping Cart is Empty")}</p>
+        ) : (
+          cartEntries.map(([id, count]) => {
+            const product = PRODUCTS.find((p) => p.id === Number(id));
+            if (!product) return null;
+            return <CartItem key={id} data={{ ...product, count }} />;
+          })
         )}
       </div>
 
-      {rawTotal > 0 ? (
+      {rawTotal > 0 && (
         <div className="checkout">
           <p>
             <strong>{t("subtotal")}:</strong> {formattedTotal}
@@ -90,8 +97,6 @@ export const Cart = () => {
           </button>
           <button onClick={handleCheckout}>{t("Checkout")}</button>
         </div>
-      ) : (
-        <h1>{t("Your Shopping Cart is Empty")}</h1>
       )}
     </div>
   );
