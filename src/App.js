@@ -8,6 +8,8 @@ import { Favorites } from "./pages/favorites/favorites";
 import { ShopContextProvider, ShopContext } from "./context/shop_context";
 import { Toaster } from "react-hot-toast";
 import { useContext } from "react";
+import { ProductDetailPanel } from "./components/ProductDetailPanel"; 
+
 
 // ⚠️ Yeni wrapper komponent tanımlıyoruz çünkü context'i App bileşeni içinde kullanmak istiyoruz
 function ThemedApp() {
@@ -17,6 +19,8 @@ function ThemedApp() {
     <div className={`App ${theme}`}>
       <Router>
         <Navbar />
+        {/* 🆕 Ürün detay paneli */}
+        <ProductDetailPanel />
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Shop />} />
