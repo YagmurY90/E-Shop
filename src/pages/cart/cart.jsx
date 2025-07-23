@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import toast from "react-hot-toast";
 import { ShopContext } from "../../context/shop_context";
-import { PRODUCTS } from "../../products";
 import { CartItem } from "./cart_item";
 import "./cart.css";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +14,7 @@ export const Cart = () => {
     getSelectedTotalAmount,
     selectedItems,
     checkout,
+    productList, // ✅ buradan alıyoruz
   } = useContext(ShopContext);
 
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ export const Cart = () => {
       return;
     }
 
-    const selectedNames = PRODUCTS
+    const selectedNames = productList
       .filter((p) => selectedItems.includes(p.id))
       .map((p) => `${p.productName} x${cartItems[p.id]}`)
       .join(", ");
@@ -58,10 +58,11 @@ export const Cart = () => {
     navigate("/checkout");
   };
 
-  // 🔥 Sadece sepete eklenmiş (undefined olmayan) ürünleri göster
-  const cartEntries = Object.entries(cartItems).filter(([_, count]) =>
-    count !== undefined
-  );
+  const cartEntries = Object.entries(cartItems)
+  .filter(([_, count]) => count !== undefined);
+
+
+
 
   return (
     <div className="cart-page">
@@ -72,7 +73,7 @@ export const Cart = () => {
           <p>{t("Your Shopping Cart is Empty")}</p>
         ) : (
           cartEntries.map(([id, count]) => {
-            const product = PRODUCTS.find((p) => p.id === Number(id));
+            const product = productList.find((p) => p.id === Number(id));
             if (!product) return null;
             return <CartItem key={id} data={{ ...product, count }} />;
           })

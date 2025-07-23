@@ -1,17 +1,8 @@
 import { createContext, useState, useEffect } from "react";
-import { PRODUCTS } from "../products";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 
-export const ShopContext = createContext(null); // Bunu UNUTMA!
-
-export const getDefaultCart = () => {
-  let cart = {};
-  for (let i = 1; i <= PRODUCTS.length; i++) {
-    cart[i] = 0;
-  }
-  return cart;
-};
+export const ShopContext = createContext(null);
 
 export const ShopContextProvider = (props) => {
   const { t } = useTranslation();
@@ -21,6 +12,23 @@ export const ShopContextProvider = (props) => {
   const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "light");
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [productList, setProductList] = useState([]);
+
+  // 🛍️ Ürünleri API'den çek
+  useEffect(() => {
+    fetch("https://dummyjson.com/products?limit=24")
+      .then((res) => res.json())
+      .then((data) => {
+        const formatted = data.products.map((item) => ({
+          id: item.id,
+          productName: item.title,
+          price: item.price,
+          productImage: item.thumbnail,
+          description: item.description,
+        }));
+        setProductList(formatted);
+      });
+  }, []);
 
   useEffect(() => {
     document.body.className = theme;
@@ -41,26 +49,22 @@ export const ShopContextProvider = (props) => {
   };
 
   const getTotalCartAmount = () => {
-    let totalAmount = 0;
-    for (const item in cartItems) {
-      if (cartItems[item] > 0) {
-        const itemInfo = PRODUCTS.find((product) => product.id === Number(item));
-        if (itemInfo) {
-          totalAmount += cartItems[item] * itemInfo.price;
-        }
+    let total = 0;
+    for (const itemId in cartItems) {
+      const product = productList.find((p) => p.id === Number(itemId));
+      if (product) {
+        total += cartItems[itemId] * product.price;
       }
     }
-    return totalAmount;
+    return total;
   };
 
   const getSelectedTotalAmount = () => {
     let total = 0;
     for (const itemId of selectedItems) {
-      if (cartItems[itemId] > 0) {
-        const itemInfo = PRODUCTS.find((p) => p.id === Number(itemId));
-        if (itemInfo) {
-          total += cartItems[itemId] * itemInfo.price;
-        }
+      const product = productList.find((p) => p.id === Number(itemId));
+      if (product && cartItems[itemId]) {
+        total += cartItems[itemId] * product.price;
       }
     }
     return total;
@@ -89,22 +93,22 @@ export const ShopContextProvider = (props) => {
   };
 
   const removeFromCart = (itemId) => {
-    setCartItems((prev) => ({
-      ...prev,
-      [itemId]: prev[itemId] > 0 ? prev[itemId] - 1 : 0,
-    }));
+    setCartItems((prev) => {
+      const current = prev[itemId] || 0;
+      const updated = { ...prev };
+      updated[itemId] = current > 0 ? current - 1 : 0;
+      return updated;
+    });
   };
 
   const removeItemFromCart = (itemId) => {
-  setCartItems((prev) => {
-    const updated = { ...prev };
-    delete updated[itemId];
-    return updated;
-  });
-
-  setSelectedItems((prev) => prev.filter((id) => id !== itemId));
-};
-
+    setCartItems((prev) => {
+      const updated = { ...prev };
+      delete updated[itemId];
+      return updated;
+    });
+    setSelectedItems((prev) => prev.filter((id) => id !== itemId));
+  };
 
   const updateCartItemCount = (newAmount, itemId) => {
     setCartItems((prev) => ({
@@ -114,11 +118,12 @@ export const ShopContextProvider = (props) => {
   };
 
   const checkout = () => {
-    setCartItems(getDefaultCart());
+    setCartItems({});
     setSelectedItems([]);
   };
 
   const contextValue = {
+    productList,
     cartItems,
     addToCart,
     removeFromCart,
